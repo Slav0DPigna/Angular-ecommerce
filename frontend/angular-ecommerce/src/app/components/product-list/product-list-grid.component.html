@@ -1,0 +1,68 @@
+<div class="main-content">
+    <div class="section-content section-content-p30">
+
+        <!--<h4>Category: {{currentCategoryName}}</h4> questo serve per avere il nome 
+        della categoria in cima ai prodotti, non mi pia e tanto come funziona da sistemare @TODO -->
+
+        <div class="container-fuid">
+            <div class="row">
+
+                <!--loop over the collection products-->
+                <div *ngFor="let tempProduct of products" class="col-md-3">
+
+                    <div class="product-box">
+
+                        <a routerLink="/products/{{tempProduct.id}}">
+                            <img src="{{tempProduct.imageUrl}}" class="img-responsive">
+                        </a>
+                        <a routerLink="/products/{{tempProduct.id}}">
+                            <h1>{{tempProduct.name}}</h1>
+                        </a>
+                        <div class="price">{{tempProduct.unitPrice| currency:'EUR'}}</div>
+                        <button  (click)="addToCart(tempProduct)" class="btn btn-primary btn-small">Add to cart</button>
+                    </div>
+
+                </div>
+
+                <!--se non ci sono prodotti da mostrare dobbiamo far uscire un messaggio-->
+                <div *ngIf="products?.length==0" class="alert alert-warning col-md-12" role="alert">
+                    No products found.
+                </div>
+            </div>
+
+            <!--begin footer-->
+            <div class="footer-pagination">
+                <div class="row">
+                    <div class="col-md-6"></div>
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-9" style="padding-left: 30%">
+                                <div *ngIf="(products?.length!)>=5"><!--mi dava come possibile undefined e ho messo il punto-->
+
+                                    <ngb-pagination [(page)]="thePageNumber" 
+                                                    [pageSize]="thePageSize"
+                                                    [collectionSize]="theTotalElements" 
+                                                    [maxSize]="3" [boundaryLinks]="true"
+                                                    (pageChange)="listProducts()">
+                                    </ngb-pagination>
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-3 mt-2" style="text-align: right;">
+                                <span class="mr-2">Page size</span>
+                                <select #myPageSelect (change)="updatePageSize(myPageSelect.value)">
+                                    <option selected="true">10</option>
+                                    <option>25</option>
+                                    <option>50</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end footer-->
+
+        </div>
+    </div>
+</div>
